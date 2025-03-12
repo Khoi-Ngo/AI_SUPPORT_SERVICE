@@ -19,18 +19,12 @@ namespace AI_SUPPORT_SERVICE
         private readonly ILogger<ChatBotController> _logger;
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _config;
-        private readonly string _apiKey;
-        private readonly string _apiUrl;
 
-        public ChatBotController(ILogger<ChatBotController> logger, IHttpClientFactory httpClientFactory, IConfiguration config)
+
+        public ChatBotController(ILogger<ChatBotController> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient();
-            _config = config;
-
-            // Retrieve API key and URL from config
-            _apiKey = _config["OpenAI:ApiKey"];
-            _apiUrl = _config["OpenAI:URL"];
         }
 
         #endregion
@@ -40,6 +34,8 @@ namespace AI_SUPPORT_SERVICE
         {
             try
             {
+                var _apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+                var _apiUrl = "https://api.openai.com/v1/chat/completions";
                 if (string.IsNullOrEmpty(_apiKey) || string.IsNullOrEmpty(_apiUrl))
                 {
                     _logger.LogError("API Key or URL is missing from configuration.");
