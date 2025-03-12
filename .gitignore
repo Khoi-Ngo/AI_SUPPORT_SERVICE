@@ -52,3 +52,15 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+bin/
+obj/
+appsettings.json
+appsettings.Development.json
+*.user
+*.db
+*.log
+.env
+Dockerfile
+docker-compose.yml
+
