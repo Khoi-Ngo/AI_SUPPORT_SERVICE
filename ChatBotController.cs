@@ -21,10 +21,11 @@ namespace AI_SUPPORT_SERVICE
         private readonly IConfiguration _config;
 
 
-        public ChatBotController(ILogger<ChatBotController> logger, IHttpClientFactory httpClientFactory)
+        public ChatBotController(ILogger<ChatBotController> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient();
+            _config = configuration;
         }
 
         #endregion
@@ -34,7 +35,8 @@ namespace AI_SUPPORT_SERVICE
         {
             try
             {
-                var _apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+                var _apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
+             ?? _config["OpenAI:ApiKey"];
                 var _apiUrl = "https://api.openai.com/v1/chat/completions";
                 if (string.IsNullOrEmpty(_apiKey) || string.IsNullOrEmpty(_apiUrl))
                 {
